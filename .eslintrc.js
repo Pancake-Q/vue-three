@@ -37,6 +37,7 @@ module.exports = {
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'no-var': 'error',
+    endOfLine: 'auto',
     'prettier/prettier': 'error',
     // 禁止出现console
     'no-console': 'warn',

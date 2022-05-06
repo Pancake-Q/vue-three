@@ -5,6 +5,7 @@ module.exports = {
   printWidth: 100,
   singleQuote: true,
   semi: true,
+  endOfLine: 'auto',
   overrides: [
     {
       files: '*.json',
