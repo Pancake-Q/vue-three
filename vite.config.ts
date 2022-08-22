@@ -1,9 +1,12 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
 import vue from '@vitejs/plugin-vue';
+import path from 'path';
 
 // https://vitejs.dev/config/
+const a = path.resolve(__dirname, './index.html');
 export default defineConfig({
+  // root: './index.html',
   plugins: [vue()],
   resolve: {
     alias: {
@@ -13,7 +16,7 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      input: './index.html',
+      input: path.resolve(__dirname, './index.html'),
     },
   },
   server: {
