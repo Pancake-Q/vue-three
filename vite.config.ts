@@ -1,16 +1,21 @@
-import { defineConfig } from 'vite';
-import { resolve } from 'path';
+import { defineConfig, splitVendorChunkPlugin } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import path from 'path';
+import { viteMockServe } from 'vite-plugin-mock';
+
+const framework = () => {
+  return [vue(), viteMockServe({}), splitVendorChunkPlugin()];
+};
 
 // https://vitejs.dev/config/
-const a = path.resolve(__dirname, './index.html');
 export default defineConfig({
-  // root: './index.html',
-  plugins: [vue()],
+  root: path.resolve(__dirname) || process.cwd(),
+  plugins: framework(),
+  // cacheDir: './.cache',
+  // publicDir: path.resolve(__dirname, 'public'),
   resolve: {
     alias: {
-      '@': resolve(__dirname, 'src'),
+      '@': path.resolve(__dirname, 'src'),
     },
     extensions: ['.ts', '.js'],
   },
@@ -18,6 +23,7 @@ export default defineConfig({
     rollupOptions: {
       input: path.resolve(__dirname, './index.html'),
     },
+    cssCodeSplit: true,
   },
   server: {
     port: 8080, //启动端口

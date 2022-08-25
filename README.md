@@ -207,15 +207,80 @@ module.exports = {
 > dist/
 > server/
 
-#### build 打包
+### 打包
 
-1. base
+#### vite
+
+1. build
+   > 在 package.json 中配置 vite --force 在每次构建时清空本地 dish 缓存
 
 ```js
-{
- build: {
-    rollupOptions: {
-      input: path.resolve(__dirname, './index.html'),
-    },
-  },}
+export default defineConfig({
+  cacheDir: './.cache',
+});
 ```
+
+2. HMR
+
+```ts
+interface ImportMeta {
+  readonly hot?: ViteHotContext;
+}
+
+type ModuleNamespace = Record<string, any> & {
+  [Symbol.toStringTag]: 'Module';
+};
+
+interface ViteHotContext {
+  readonly data: any; // 可以实现按需缓存cache
+  accept(): void;
+  accept(cb: (mod: ModuleNamespace | undefined) => void): void;
+  accept(dep: string, cb: (mod: ModuleNamespace | undefined) => void): void;
+  accept(deps: readonly string[], cb: (mods: Array<ModuleNamespace | undefined>) => void): void;
+
+  dispose(cb: (data: any) => void): void; // 清除副作用
+  decline(): void; // 不可热更新
+  invalidate(): void; // 重新加载页面
+
+  // `InferCustomEventPayload` provides types for built-in Vite events
+  on<T extends string>(event: T, cb: (payload: InferCustomEventPayload<T>) => void): void;
+  send<T extends string>(event: T, data?: InferCustomEventPayload<T>): void;
+}
+```
+
+3. 静态资源处理
+
+- 导出源码
+
+> import example from './example.js?raw'
+
+- 导出图片 url
+
+> import logo from './logo.png?url'
+
+- new URL(url, import.meta.url)
+
+> const imgUrl = new URL('./img.png', import.meta.url).href
+> function getImageUrl(name) {
+> return new URL(`./dir/${name}.png`, import.meta.url).href
+> }
+
+- 错误用法
+
+> // Vite 不会转换这个
+> const imgUrl = new URL(imagePath, import.meta.url).href
+
+4. Web Worker
+
+构造器导入
+
+> const worker = new Worker(new URL('./worker.js', import.meta.url))
+> const worker = new Worker(new URL('./worker.js', import.meta.url), {type: 'module'})
+
+带有后缀的导入
+
+> import MyWorker from './worker?worker'
+> const worker = new MyWorker()
+
+> import MyWorker from './worker?worker&inline' // base64
+> import MyWorker from './worker?worker&url' // url
