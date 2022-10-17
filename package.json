@@ -6,10 +6,11 @@
     "serve": "vue-cli-service serve",
     "lint": "vue-cli-service lint",
     "dev": "vite --force",
-    "build": "vue-tsc --noEmit && vite build",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/node": "^18.8.0",
     "core-js": "^3.24.1",
     "pinia": "^2.0.20",
     "vue": "^3.2.37"

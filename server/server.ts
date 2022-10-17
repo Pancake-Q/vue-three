@@ -1,6 +1,6 @@
-//引入express
-var express = require('express');
-var app = express();
+// 引入express
+const express = require('express');
+const app = express();
 
 //指定启动服务器到哪个文件夹，我这边指的是/public/dist文件夹
 app.use(express.static('./../dist'));

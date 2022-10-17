@@ -2,9 +2,9 @@ import { defineConfig, splitVendorChunkPlugin } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import path from 'path';
 import { viteMockServe } from 'vite-plugin-mock';
-
+import test from './build/testPlugin.js';
 const framework = () => {
-  return [vue(), viteMockServe({}), splitVendorChunkPlugin()];
+  return [vue(), viteMockServe({}), splitVendorChunkPlugin(), test()];
 };
 
 // https://vitejs.dev/config/

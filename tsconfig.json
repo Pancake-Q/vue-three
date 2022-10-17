@@ -19,5 +19,6 @@
     }
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
-  "references": [{ "path": "./tsconfig.node.json" }] // 指明要引用的工程
+  "references": [{ "path": "./tsconfig.node.json" }], // 指明要引用的工程
+
 }
